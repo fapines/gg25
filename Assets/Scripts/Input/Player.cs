@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityStandardAssets._2D;
 
@@ -13,14 +11,12 @@ public class Player : MonoBehaviour
     [SerializeField] private InputAction jump;
     [SerializeField] private InputAction shoot;
     [SerializeField] private InputAction aim;
-    [SerializeField] private InputAction shootGrenade;
 
     // Usable player input data
     private Vector2 direction { get; set; }
-    public Vector2 aimDirection { get; set; }
+    private Vector2 aimDirection { get; set; }
     private bool jumping = false;
     private bool shooting = false;
-    private bool shootingGrenade = false;
 
     private Camera mainCamera; // Reference to the main camera for getting mouse position
 
@@ -32,8 +28,6 @@ public class Player : MonoBehaviour
         jump.canceled += OnJumpPerformed;
         shoot.performed += OnShootPerformed;
         shoot.canceled += OnShootPerformed;
-        shootGrenade.performed += OnShootGrenadePerformed;
-        shootGrenade.canceled += OnShootGrenadePerformed;
         aim.performed += OnAimPerformed;
 
         mainCamera = Camera.main; // Assign the main camera
@@ -45,7 +39,6 @@ public class Player : MonoBehaviour
         jump.Enable();
         shoot.Enable();
         aim.Enable();
-        shootGrenade.Enable();
     }
 
     private void OnDisable()
@@ -54,14 +47,12 @@ public class Player : MonoBehaviour
         jump.Disable();
         shoot.Disable();
         aim.Disable();
-        shootGrenade.Disable();
     }
 
     void FixedUpdate()
     {
         characterController.Move(direction.x, false, jumping); // Move the character based on input
         characterController.shoot(shooting); // Handle shooting
-        characterController.shootGrenade(shootingGrenade); // Handle grenade shooting
         characterController.aimingDirection = aimDirection; // Set the aiming direction
     }
 
@@ -86,10 +77,5 @@ public class Player : MonoBehaviour
     private void OnShootPerformed(InputAction.CallbackContext ctx)
     {
         shooting = ctx.performed; // Shooting state
-    }
-
-    private void OnShootGrenadePerformed(InputAction.CallbackContext ctx)
-    {
-        shootingGrenade = ctx.performed; // Grenade shooting state
     }
 }

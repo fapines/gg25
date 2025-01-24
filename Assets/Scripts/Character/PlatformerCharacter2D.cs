@@ -18,7 +18,6 @@ namespace UnityStandardAssets._2D
         private Rigidbody2D m_Rigidbody2D; // Rigidbody2D component
 
         public GameObject bulletPrefab; // Bullet prefab
-        public GameObject grenadePrefab; // Grenade prefab
         public Transform weaponLocation; // Weapon location
         public Vector2 aimingDirection { get; set; } // Direction for aiming
 
@@ -76,9 +75,10 @@ namespace UnityStandardAssets._2D
             {
                 if (aimingDirection == Vector2.zero)
                 {
-                    aimingDirection = new Vector2(1, 0); // Default aiming direction
+                    aimingDirection = new Vector2(1, 0); // Default aiming direction (facing right)
                 }
 
+                // Flip character based on the direction of the shot
                 if (aimingDirection.x > 0 && !m_FacingRight)
                 {
                     Flip();
@@ -91,25 +91,6 @@ namespace UnityStandardAssets._2D
                 nextFire = Time.time + fireRate;
                 GameObject bullet = Instantiate(bulletPrefab, weaponLocation.position, weaponLocation.rotation);
                 bullet.GetComponent<Bullet>().Fire(aimingDirection); // Fire the bullet in the direction of the mouse
-            }
-        }
-
-        public void shootGrenade(bool shootGrenade)
-        {
-            if (shootGrenade && Time.time > nextFire)
-            {
-                if (aimingDirection.x > 0 && !m_FacingRight)
-                {
-                    Flip();
-                }
-                else if (aimingDirection.x < 0 && m_FacingRight)
-                {
-                    Flip();
-                }
-
-                nextFire = Time.time + fireRate;
-                GameObject grenade = Instantiate(grenadePrefab, weaponLocation.position, weaponLocation.rotation);
-                grenade.GetComponent<Grenade>().Fire(aimingDirection); // Fire the grenade in the direction of the mouse
             }
         }
 
