@@ -6,8 +6,6 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody2D))]
 public class Projectile : MonoBehaviour
 {
-    [Header("Visual")]
-    public Sprite sprite;
     [Header("Attributes")]
     public float speed = 20f;
     public int damage = 0;
@@ -20,7 +18,6 @@ public class Projectile : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
-        spriteRenderer.sprite = sprite;
     }
 
     private void Start()
